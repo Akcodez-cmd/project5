@@ -36,7 +36,7 @@ pipeline {
                 sh '''
                     java -version
                     docker --version
-                    trivy --version
+                    trivy --config "" --version
                     git --version
                 '''
             }
@@ -92,18 +92,19 @@ pipeline {
             }
         }
 
+
         stage('Trivy Security Scan') {
             steps {
                 sh '''
-                    trivy image \
-                      --format json \
-                      --output trivy-report.json \
-                      ${DOCKER_IMAGE}:${IMAGE_TAG}
+                    trivy --config "" image \
+                    --format json \
+                    --output trivy-report.json \
+                    ${DOCKER_IMAGE}:${IMAGE_TAG}
 
-                    trivy image \
-                      --severity HIGH,CRITICAL \
-                      --exit-code 1 \
-                      ${DOCKER_IMAGE}:${IMAGE_TAG}
+                    trivy --config "" image \
+                    --severity HIGH,CRITICAL \
+                    --exit-code 1 \
+                    ${DOCKER_IMAGE}:${IMAGE_TAG}
                 '''
             }
         }
