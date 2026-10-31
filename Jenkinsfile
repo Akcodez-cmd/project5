@@ -62,7 +62,8 @@ pipeline {
             steps {
                 withSonarQubeEnv("${SONAR_SERVER}") {
                     sh '''
-                        ./mvnw -B sonar:sonar
+                        ./mvnw -B sonar:sonar \
+                          -Dsonar.projectKey=Habit-Tracker
                     '''
                 }
             }
